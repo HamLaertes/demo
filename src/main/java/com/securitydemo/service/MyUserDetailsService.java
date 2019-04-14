@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 public class MyUserDetailsService implements UserDetailsService{
     @Autowired
@@ -23,6 +24,7 @@ public class MyUserDetailsService implements UserDetailsService{
         SysRole sysRole=sysRoleDao.getRoleById(sysUser.getId());
         Long userId=sysUser.getId();
         String password=sysUser.getPassword();
+        password=new BCryptPasswordEncoder().encode(password);
         String role=sysRole.getName();
         UserInfo userInfo = new UserInfo(userId, username, password, role,
                     true, true, true, true);

@@ -26,9 +26,8 @@ public class MyAuthenticationProvider implements AuthenticationProvider{
         if(userInfo==null){
             throw new BadCredentialsException("用户名不存在");
         }
-        BCryptPasswordEncoder bCryptPasswordEncoder=new BCryptPasswordEncoder();
-        String encodePwd=bCryptPasswordEncoder.encode(password);
-        if(!userInfo.getPassword().equals(encodePwd)){
+        String inputPassword=new BCryptPasswordEncoder().encode((String)authentication.getCredentials());
+        if(!userInfo.getPassword().equals(inputPassword)){
             throw new BadCredentialsException("密码不正确");
         }
         Collection<? extends GrantedAuthority> authorities=userInfo.getAuthorities();
